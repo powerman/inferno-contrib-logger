@@ -1,0 +1,16 @@
+<../../mkconfig
+
+TARG=\
+	logger.dis\
+
+SYSMODULES=\
+	sys.m\
+	env.m\
+
+MODULES=\
+	../../module/logger.m\
+
+DISBIN=../../dis/lib
+
+<$ROOT/mkfiles/mkdis
+
