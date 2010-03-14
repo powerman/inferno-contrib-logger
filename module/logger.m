@@ -1,7 +1,7 @@
 
 Logger: module
 {
-	PATH: con "/contrib/logger/dis/lib/logger.dis";
+	PATH: con "/opt/powerman/logger/dis/lib/logger.dis";
 
 	init: fn();
 
