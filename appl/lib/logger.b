@@ -20,9 +20,9 @@ init()
 	case env->getenv("loglevel") {
 	"ERR"	=> verbose = ERR;
 	"WARN"	=> verbose = WARN;
+	"NOTICE"=> verbose = NOTICE;
 	"INFO"	=> verbose = INFO;
 	"DEBUG" => verbose = DEBUG;
-	"DUMP"	=> verbose = DUMP;
 	*	=> verbose = WARN;
 	}
 }
@@ -49,9 +49,9 @@ log(level: int, s: string)
 	case level {
 	ERR	=> l = "err";
 	WARN	=> l = "warn";
+	NOTICE	=> l = "notice";
 	INFO	=> l = "info";
 	DEBUG	=> l = "debug";
-	DUMP	=> l = "dump";
 	*	=> l = "unknown";
 	}
 	prefix := prog;

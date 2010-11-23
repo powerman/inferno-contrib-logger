@@ -9,7 +9,7 @@ Logger: module
 	modname: fn(s: string);
 	log: fn(level: int, s: string);
 
-	ERR, WARN, INFO, DEBUG, DUMP: con iota;
+	ERR, WARN, NOTICE, INFO, DEBUG: con iota;
 	verbose: int;
 };
 
