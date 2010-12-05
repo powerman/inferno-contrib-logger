@@ -58,6 +58,8 @@ log(level: int, s: string)
 	*	=> fail("unknown level: "+string level);
 	}
 	dt := daytime->time();
+	if(dt[8] == '0')
+		dt[8] = ' ';
 	ident := prog;
 	if(ident != nil && mod != nil)
 		ident += ".";
