@@ -5,6 +5,8 @@ include "sys.m";
 	sprint: import sys;
 include "env.m";
 	env: Env;
+include "daytime.m";
+	daytime: Daytime;
 include "../../module/logger.m";
 
 prog	:= "";
@@ -14,6 +16,7 @@ init()
 {
 	sys = load Sys Sys->PATH;
 	env = checkload(load Env Env->PATH, "Env");
+	daytime = checkload(load Daytime Daytime->PATH, "Daytime");
 
 	prog = env->getenv("logprogname");
 
@@ -52,13 +55,16 @@ log(level: int, s: string)
 	NOTICE	=> l = "notice";
 	INFO	=> l = "info";
 	DEBUG	=> l = "debug";
-	*	=> l = "unknown";
+	*	=> fail("unknown level: "+string level);
 	}
-	prefix := prog;
-	if(prefix != nil && mod != nil)
-		prefix += " ";
-	prefix += mod;
-	sys->fprint(sys->fildes(2), "%s: [%s] %s\n", prefix, l, s);
+	dt := daytime->time();
+	ident := prog;
+	if(ident != nil && mod != nil)
+		ident += ".";
+	ident += mod;
+	# "user.err: " + "Dec  5 15:46:38 " + "ident" + "[123]" + ": "
+	sys->fprint(sys->fildes(2), "user.%s: %s%s[%d]: %s\n",
+		l, dt[4:20], ident, sys->pctl(0,nil), s);
 }
 
 fail(s: string)
