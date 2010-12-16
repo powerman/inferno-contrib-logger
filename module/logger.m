@@ -7,6 +7,7 @@ Logger: module
 
 	progname: fn(s: string);
 	modname: fn(s: string);
+	prefix: fn(s: string);
 	log: fn(level: int, s: string);
 
 	ERR, WARN, NOTICE, INFO, DEBUG: con iota;

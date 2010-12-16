@@ -11,6 +11,7 @@ include "../../module/logger.m";
 
 prog	:= "";
 mod	:= "";
+pfx	:= "";
 
 init()
 {
@@ -41,6 +42,10 @@ modname(s: string)
 	mod = s;
 }
 
+prefix(s: string)
+{
+	pfx = s;
+}
 
 ###
 
@@ -65,8 +70,8 @@ log(level: int, s: string)
 		ident += ".";
 	ident += mod;
 	# "user.err: " + "Dec  5 15:46:38 " + "ident" + "[123]" + ": "
-	sys->fprint(sys->fildes(2), "user.%s: %s%s[%d]: %s\n",
-		l, dt[4:20], ident, sys->pctl(0,nil), s);
+	sys->fprint(sys->fildes(2), "user.%s: %s%s[%d]: %s%s\n",
+		l, dt[4:20], ident, sys->pctl(0,nil), pfx, s);
 }
 
 fail(s: string)
