@@ -5,7 +5,7 @@ Logger: module
 
 	init: fn();
 
-	progname: fn(s: string);
+	progname: fn(s: string);	# WARNING: will do pctl(FORKENV)
 	modname: fn(s: string);
 	prefix: fn(s: string);
 	log: fn(level: int, s: string);

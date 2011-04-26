@@ -34,6 +34,7 @@ init()
 progname(s: string)
 {
 	prog = s;
+	sys->pctl(Sys->FORKENV, nil);
 	env->setenv("logprogname", prog);
 }
 
