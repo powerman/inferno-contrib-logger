@@ -9,6 +9,7 @@ include "daytime.m";
 	daytime: Daytime;
 include "../../module/logger.m";
 
+output	: ref Sys->FD;
 prog	:= "";
 mod	:= "";
 pfx	:= "";
@@ -18,6 +19,15 @@ init()
 	sys = load Sys Sys->PATH;
 	env = checkload(load Env Env->PATH, "Env");
 	daytime = checkload(load Daytime Daytime->PATH, "Daytime");
+
+	path := env->getenv("logoutput");
+	if(path == nil)
+		output = sys->fildes(2);
+	else{
+		output = sys->open(path, Sys->OWRITE);
+		if(output == nil)
+			fail(sprint("open '%s': %r", path));
+	}
 
 	prog = env->getenv("logprogname");
 
@@ -71,13 +81,16 @@ log(level: int, s: string)
 		ident += ".";
 	ident += mod;
 	# "user.err: " + "Dec  5 15:46:38 " + "ident" + "[123]" + ": "
-	sys->fprint(sys->fildes(2), "user.%s: %s%s[%d]: %s%s\n",
+	sys->fprint(output, "user.%s: %s%s[%d]: %s%s\n",
 		l, dt[4:20], ident, sys->pctl(0,nil), pfx, s);
 }
 
 fail(s: string)
 {
-	log(ERR, s);
+        if(output != nil)
+                log(ERR, s);
+        else
+                sys->fprint(sys->fildes(2), "%s\n", s);
 	raise "fail:"+s;
 }
 
