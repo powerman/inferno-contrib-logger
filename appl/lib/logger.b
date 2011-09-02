@@ -10,9 +10,11 @@ include "daytime.m";
 include "../../module/logger.m";
 
 output	: ref Sys->FD;
+src	:= "";
 prog	:= "";
 mod	:= "";
 pfx	:= "";
+
 
 init()
 {
@@ -29,6 +31,7 @@ init()
 			fail(sprint("open '%s': %r", path));
 	}
 
+	src = env->getenv("logsrc");
 	prog = env->getenv("logprogname");
 
 	case env->getenv("loglevel") {
@@ -76,7 +79,7 @@ log(level: int, s: string)
 	dt := daytime->time();
 	if(dt[8] == '0')
 		dt[8] = ' ';
-	ident := prog;
+	ident := src + prog;
 	if(ident != nil && mod != nil)
 		ident += ".";
 	ident += mod;
